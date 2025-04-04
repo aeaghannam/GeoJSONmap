@@ -24,21 +24,18 @@
         const projection = d3.geoAlbersUsa().translate([width / 2, height / 2]).scale(1200);
         const path = d3.geoPath().projection(projection);
 
-        // Load the TopoJSON data and convert it to GeoJSON
+        // Load the GeoJSON data and render the map
         d3.json("us_county_map.json").then(data => {
-            console.log("Loaded TopoJSON:", data);
+            console.log("Loaded GeoJSON:", data);
 
-            // Ensure 'counties' object exists in TopoJSON structure
-            if (!data.objects || !data.objects.counties) {
-                throw new Error("Invalid TopoJSON structure: 'counties' not found");
+            // Ensure 'features' exists in GeoJSON structure
+            if (!data.features) {
+                throw new Error("Invalid GeoJSON structure: 'features' not found");
             }
-
-            // Convert TopoJSON to GeoJSON using topojson.feature()
-            const counties = topojson.feature(data, data.objects.counties);
 
             // Draw counties on the SVG
             svg.selectAll(".county")
-                .data(counties.features)
+                .data(data.features)
                 .enter().append("path")
                 .attr("class", "county")
                 .attr("d", path)
