@@ -1,4 +1,25 @@
-{"type":"FeatureCollection", "features": [
-{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-118.2,34],[-118.3,34.1],[-118.4,33.9],[-118.2,34]]]},"properties":{"name":"Los Angeles County","state":"CA"}},
-{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-87.6,41.8],[-87.7,41.9],[-87.8,41.7],[-87.6,41.8]]]},"properties":{"name":"Cook County","state":"IL"}}
-]}
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "name": "Los Angeles County", "state": "CA" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-118.2, 34.0], [-118.3, 34.1], [-118.4, 33.9], [-118.2, 34.0]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Cook County", "state": "IL" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-87.6, 41.8], [-87.7, 41.9], [-87.8, 41.7], [-87.6, 41.8]
+        ]]
+      }
+    }
+  ]
+}
