@@ -14,44 +14,42 @@
 </head>
 <body>
     <h2>US County Map</h2>
-
+    <svg></svg>
     <script>
+        // Set up dimensions for the map
+        const width = 1000, height = 600;
+        const svg = d3.select("svg").attr("width", width).attr("height", height);
 
-d3.json("us_county_map.json").then(data => {
-    console.log("Loaded TopoJSON:", data);
+        // Set up projection for the map
+        const projection = d3.geoAlbersUsa().translate([width / 2, height / 2]).scale(1200);
+        const path = d3.geoPath().projection(projection);
 
-    // Ensure 'counties' object exists in TopoJSON structure
-    if (!data.objects || !data.objects.counties) {
-        throw new Error("Invalid TopoJSON structure: 'counties' not found");
-    }
+        // Load the TopoJSON data and convert it to GeoJSON
+        d3.json("us_county_map.json").then(data => {
+            console.log("Loaded TopoJSON:", data);
 
-    // Convert TopoJSON to GeoJSON using topojson.feature()
-    const counties = topojson.feature(data, data.objects.counties);
+            // Ensure 'counties' object exists in TopoJSON structure
+            if (!data.objects || !data.objects.counties) {
+                throw new Error("Invalid TopoJSON structure: 'counties' not found");
+            }
 
-    // Set up the SVG canvas
-    const width = 1000, height = 600;
-    const svg = d3.select("svg").attr("width", width).attr("height", height);
+            // Convert TopoJSON to GeoJSON using topojson.feature()
+            const counties = topojson.feature(data, data.objects.counties);
 
-    // Set up the projection (GeoAlbersUsa)
-    const projection = d3.geoAlbersUsa().translate([width / 2, height / 2]).scale(1200);
-    const path = d3.geoPath().projection(projection);
-
-    // Draw counties on the SVG
-    svg.selectAll(".county")
-        .data(counties.features)
-        .enter().append("path")
-        .attr("class", "county")
-        .attr("d", path)
-        .attr("fill", "lightgray")
-        .attr("stroke", "white")
-        .attr("stroke-width", 0.5)
-        .on("mouseover", function () { d3.select(this).attr("fill", "orange"); })
-        .on("mouseout", function () { d3.select(this).attr("fill", "lightgray"); })
-        .append("title")
-        .text(d => `${d.properties.name}, ${d.properties.state}`);
-}).catch(error => console.error("Error loading JSON:", error));
-
-        
+            // Draw counties on the SVG
+            svg.selectAll(".county")
+                .data(counties.features)
+                .enter().append("path")
+                .attr("class", "county")
+                .attr("d", path)
+                .attr("fill", "lightgray")
+                .attr("stroke", "white")
+                .attr("stroke-width", 0.5)
+                .on("mouseover", function () { d3.select(this).attr("fill", "orange"); })
+                .on("mouseout", function () { d3.select(this).attr("fill", "lightgray"); })
+                .append("title")
+                .text(d => `${d.properties.name}, ${d.properties.state}`);
+        }).catch(error => console.error("Error loading JSON:", error));
     </script>
 </body>
 </html>
