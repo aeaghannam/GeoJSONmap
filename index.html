@@ -14,14 +14,28 @@
 </head>
 <body>
     <h2>US County Map</h2>
-    <svg></svg>
+
     <script>
 d3.json("us_county_map.json").then(data => {
     console.log("Loaded TopoJSON:", data);
 
+    // Ensure 'data.objects.counties' exists
+    if (!data.objects || !data.objects.counties) {
+        throw new Error("Invalid TopoJSON structure: 'counties' not found");
+    }
+
     // Convert TopoJSON to GeoJSON
     const counties = topojson.feature(data, data.objects.counties);
 
+    // Set up SVG canvas
+    const width = 1000, height = 600;
+    const svg = d3.select("svg").attr("width", width).attr("height", height);
+
+    // Set up projection
+    const projection = d3.geoAlbersUsa().translate([width / 2, height / 2]).scale(1200);
+    const path = d3.geoPath().projection(projection);
+
+    // Draw counties
     svg.selectAll(".county")
         .data(counties.features)
         .enter().append("path")
