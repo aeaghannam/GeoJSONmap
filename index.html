@@ -16,19 +16,19 @@
     <h2>US County Map</h2>
     <svg></svg>
     <script>
-        // Set up map dimensions
+        // Set up dimensions for the map
         const width = 1000, height = 600;
         const svg = d3.select("svg").attr("width", width).attr("height", height);
 
-        // Set up projection and path
+        // Set up projection for the map
         const projection = d3.geoAlbersUsa().translate([width / 2, height / 2]).scale(1200);
         const path = d3.geoPath().projection(projection);
 
-        // Load the GeoJSON data
-        d3.json("us_county_map.json").then(function(data) {
+        // Load the full US county GeoJSON from GitHub
+        d3.json("https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/United-States-County.geojson").then(function(data) {
             console.log("Loaded GeoJSON:", data);
 
-            // Draw counties on the map
+            // Draw counties on the SVG
             svg.selectAll(".county")
                 .data(data.features)
                 .enter().append("path")
