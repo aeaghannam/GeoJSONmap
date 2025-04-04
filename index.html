@@ -16,24 +16,19 @@
     <h2>US County Map</h2>
     <svg></svg>
     <script>
-        // Set up dimensions for the map
+        // Set up map dimensions
         const width = 1000, height = 600;
         const svg = d3.select("svg").attr("width", width).attr("height", height);
 
-        // Set up projection for the map
+        // Set up projection and path
         const projection = d3.geoAlbersUsa().translate([width / 2, height / 2]).scale(1200);
         const path = d3.geoPath().projection(projection);
 
-        // Load the GeoJSON data and render the map
-        d3.json("us_county_map.json").then(data => {
+        // Load the GeoJSON data
+        d3.json("us_county_map.json").then(function(data) {
             console.log("Loaded GeoJSON:", data);
 
-            // Ensure 'features' exists in GeoJSON structure
-            if (!data.features) {
-                throw new Error("Invalid GeoJSON structure: 'features' not found");
-            }
-
-            // Draw counties on the SVG
+            // Draw counties on the map
             svg.selectAll(".county")
                 .data(data.features)
                 .enter().append("path")
@@ -46,7 +41,9 @@
                 .on("mouseout", function () { d3.select(this).attr("fill", "lightgray"); })
                 .append("title")
                 .text(d => `${d.properties.name}, ${d.properties.state}`);
-        }).catch(error => console.error("Error loading JSON:", error));
+        }).catch(function(error) {
+            console.error("Error loading GeoJSON:", error);
+        });
     </script>
 </body>
 </html>
