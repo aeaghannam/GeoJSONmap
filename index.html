@@ -7,7 +7,7 @@
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="https://unpkg.com/topojson-client@3"></script>
     <style>
-        svg { border: 1px solid black; }
+        svg { width: 1000px; height: 600px; border: 1px solid black; }
         .county { fill: lightgray; stroke: white; stroke-width: 0.5px; }
         .county:hover { fill: orange; }
     </style>
@@ -24,7 +24,7 @@
         const projection = d3.geoAlbersUsa().translate([width / 2, height / 2]).scale(1200);
         const path = d3.geoPath().projection(projection);
 
-        // Load the full US county GeoJSON from GitHub
+        // Load the full US county GeoJSON from GitHub (raw URL)
         d3.json("https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/United-States-County.geojson").then(function(data) {
             console.log("Loaded GeoJSON:", data);
 
